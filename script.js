@@ -62,25 +62,9 @@ document.addEventListener('DOMContentLoaded', () => { // Correct
         img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7tlIGdLzPe29repUgNE3LBsHVKeswk1lQtw&s',
         desc: 'The very portfolio you are currently exploring, designed with a clean aesthetic and built using modern web technologies to showcase my skills and projects.',
         tags: ['HTML', 'CSS', 'JavaScript', 'AOS'],
-        liveUrl: '#',
+        liveUrl: 'https://rahibhojak.github.io/',
         githubUrl: 'https://github.com/rahibhojak/RahiBhojak.github.io'
     },
-        { 
-            title: 'Creative Portfolio Agency', 
-            img: 'https://placehold.co/600x400/112240/64ffda?text=Project+2',
-            desc: 'A modern, visually-driven portfolio website for a creative agency, focusing on animations and user experience.',
-            tags: ['Figma', 'Next.js', 'GSAP'],
-            liveUrl: '#',
-            githubUrl: '#'
-        },
-        { 
-            title: 'Task Management App', 
-            img: 'https://placehold.co/600x400/112240/64ffda?text=Project+3',
-            desc: 'A sleek and intuitive task manager with drag-and-drop functionality, built to improve productivity.',
-            tags: ['TypeScript', 'React', 'Styled-Components'],
-            liveUrl: '#',
-            githubUrl: '#'
-        },
     ];
 
     const projectsGrid = document.querySelector('.projects-grid');
