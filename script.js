@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => { // Correct
+document.addEventListener('DOMContentLoaded', () => {
     // --- PRELOADER ---
     const preloader = document.querySelector('.preloader');
     window.addEventListener('load', () => {
@@ -12,27 +12,53 @@ document.addEventListener('DOMContentLoaded', () => { // Correct
         offset: 50,
     });
 
-    // --- CUSTOM CURSOR ---
-    const cursorDot = document.querySelector('.cursor-dot');
-    const cursorOutline = document.querySelector('.cursor-outline');
-    const halo = document.getElementById('cursor-halo');
+    // --- NEW GOOEY CURSOR ---
+    const cursor = document.createElement('div');
+    cursor.className = 'cursor';
+    document.body.appendChild(cursor);
+
+    const cursorDot = document.createElement('div');
+    cursorDot.className = 'cursor-dot';
+    cursor.appendChild(cursorDot);
+
+    const cursorFollower = document.createElement('div');
+    cursorFollower.className = 'cursor-dot-follower';
+    cursor.appendChild(cursorFollower);
+
+    let mouseX = 0, mouseY = 0;
+    let followerX = 0, followerY = 0;
+    const speed = 0.1;
 
     window.addEventListener('mousemove', (e) => {
-        const posX = e.clientX;
-        const posY = e.clientY;
-        cursorDot.style.left = `${posX}px`;
-        cursorDot.style.top = `${posY}px`;
-
-        halo.style.transform = `translate(${posX - 400}px, ${posY - 400}px)`;
-
-        cursorOutline.animate({
-            left: `${posX}px`,
-            top: `${posY}px`
-        }, { duration: 500, fill: "forwards" });
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
     });
-    document.querySelectorAll('a, button, .slider, [data-tilt]').forEach(el => {
-        el.addEventListener('mouseover', () => cursorOutline.classList.add('cursor-hovered'));
-        el.addEventListener('mouseout', () => cursorOutline.classList.remove('cursor-hovered'));
+
+    function animateFollower() {
+        let dx = mouseX - followerX;
+        let dy = mouseY - followerY;
+        followerX += dx * speed;
+        followerY += dy * speed;
+        cursorFollower.style.transform = `translate(${followerX}px, ${followerY}px)`;
+        requestAnimationFrame(animateFollower);
+    }
+    animateFollower();
+    
+    document.querySelectorAll('a, button, [data-tilt]').forEach(el => {
+        el.addEventListener('mouseenter', () => cursor.classList.add('cursor-hovered'));
+        el.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hovered'));
+    });
+
+    // --- NEW HOVER GLOW EFFECT ---
+    document.querySelectorAll('.bento-item, .project-card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            card.style.setProperty('--mouse-x', `${x}px`);
+            card.style.setProperty('--mouse-y', `${y}px`);
+        });
     });
     
     // --- ANIMATED HERO TITLE ---
@@ -119,6 +145,6 @@ document.addEventListener('DOMContentLoaded', () => { // Correct
                 link.classList.add('active');
             }
         });
-    }); // This was the first fix
+    });
 
-}); // <-- This was the final missing piece
+});
